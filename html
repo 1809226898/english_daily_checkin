@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <title>每天进步一点点，坚持哦！</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: "Segoe UI", sans-serif;
+      background: linear-gradient(to right, #e0eafc, #cfdef3);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      color: #333;
+    }
+    .container {
+      background: white;
+      padding: 40px 30px;
+      border-radius: 16px;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+      text-align: center;
+      max-width: 360px;
+      width: 90%;
+    }
+    h1 {
+      font-size: 22px;
+      margin-bottom: 10px;
+      color: #2d6cdf;
+    }
+    .date {
+      font-size: 14px;
+      color: #888;
+      margin-bottom: 25px;
+    }
+    label {
+      display: block;
+      text-align: left;
+      margin-bottom: 16px;
+      font-size: 17px;
+      padding: 10px 14px;
+      background: #f7f9fc;
+      border-radius: 8px;
+      transition: background 0.3s;
+    }
+    label:hover {
+      background: #eaf0fb;
+    }
+    input[type="checkbox"] {
+      margin-right: 10px;
+      transform: scale(1.2);
+    }
+    .summary {
+      margin-top: 25px;
+      font-size: 16px;
+      color: #2d6cdf;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>每天进步一点点，坚持哦！</h1>
+    <div class="date" id="date"></div>
+
+    <label><input type="checkbox" id="english">今天学英语了吗？</label>
+    <label><input type="checkbox" id="fitness">今天健身了吗？</label>
+    <label><input type="checkbox" id="sleep">今天早睡了吗？</label>
+
+    <div class="summary" id="summary">完成：0 / 3</div>
+  </div>
+
+  <script>
+    const tasks = ['english', 'fitness', 'sleep'];
+
+    function updateSummary() {
+      const completed = tasks.filter(task => document.getElementById(task).checked).length;
+      document.getElementById("summary").textContent = `完成：${completed} / ${tasks.length}`;
+    }
+
+    // 显示日期
+    const dateEl = document.getElementById("date");
+    const now = new Date();
+    const dateStr = now.toLocaleDateString('zh-CN', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+    dateEl.textContent = `📅 今天是：${dateStr}`;
+
+    // 恢复状态
+    tasks.forEach(task => {
+      const checkbox = document.getElementById(task);
+      const saved = localStorage.getItem(task);
+      if (saved === "true") checkbox.checked = true;
+      checkbox.addEventListener('change', () => {
+        localStorage.setItem(task, checkbox.checked);
+        updateSummary();
+      });
+    });
+
+    updateSummary();
+  </script>
+</body>
+</html>
